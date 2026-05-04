@@ -1,4 +1,3 @@
-
 export type Language = 'en' | 'pt' | 'es';
 
 export const translations = {
@@ -61,8 +60,8 @@ export const translations = {
     },
     footer: {
       institutions: "Participating institutions",
-      collab: "A collaboration between {uepa} and {unifesspa}.",
-      copyright: "VISART © 2024 • Experimental Technological Art Platform"
+      collab: "A collaboration between {uepa}, {unifesspa}, and {medialab}.",
+      copyright: "VISART © 2026 • Experimental Technological Art Platform"
     }
   },
   pt: {
@@ -124,8 +123,8 @@ export const translations = {
     },
     footer: {
       institutions: "Instituições participantes",
-      collab: "Uma colaboração entre a {uepa} e a {unifesspa}.",
-      copyright: "VISART © 2024 • Plataforma de Arte Tecnológica Experimental"
+      collab: "Uma colaboração entre a {uepa}, a {unifesspa} e o {medialab}.",
+      copyright: "VISART © 2026 • Plataforma de Arte Tecnológica Experimental"
     }
   },
   es: {
@@ -136,7 +135,7 @@ export const translations = {
       description: "VISART transforma la mirada del espectador en trazos visuales, creando una obra de arte interactiva en tiempo real. Una instalación performática que une la visión y el lienzo digital.",
       startBtn: "Comenzar Experiencia",
       conceptTitle: "Concepto",
-      conceptDesc: "VISART transforma tu visión en un pincel creativo. Con solo mirar, generas trazos dinámicos y marcas expresivas en obras digitales.",
+      conceptDesc: "VISART transforma tu visión en un pincel creativo. Con solo mirar, generas trazos dinámicos y marcas expressivas en obras digitales.",
       interactionTitle: "Interacción",
       interactionDesc: "Una calibración rápida permite un rendimiento en tiempo real. Elige entre diversos estilos como caminos de neón, manchas de acuarela o sistemas de partículas.",
       ethicalTitle: "Arte Ético",
@@ -164,7 +163,7 @@ export const translations = {
       thickness: "Grosor",
       opacity: "Opacidad",
       actions: "Acciones",
-      clearCanvas: "Limpiar Lienzo",
+      clearCanvas: "Limpar Lienzo",
       changeImage: "Cambiar Imagen",
       exportPng: "Exportar PNG",
       start: "Iniciar",
@@ -187,8 +186,8 @@ export const translations = {
     },
     footer: {
       institutions: "Instituciones participantes",
-      collab: "Una colaboración entre {uepa} y {unifesspa}.",
-      copyright: "VISART © 2024 • Plataforma de Arte Tecnológico Experimental"
+      collab: "Una colaboración entre {uepa}, {unifesspa} y {medialab}.",
+      copyright: "VISART © 2026 • Plataforma de Arte Tecnológico Experimental"
     }
   }
 };

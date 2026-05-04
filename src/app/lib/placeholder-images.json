@@ -1,4 +1,3 @@
-
 {
   "placeholderImages": [
     {
@@ -18,6 +17,12 @@
       "description": "Logo of Universidade Federal do Sul e Sudeste do Pará",
       "imageUrl": "https://picsum.photos/seed/unifesspa/200/100",
       "imageHint": "university logo"
+    },
+    {
+      "id": "medialab-logo",
+      "description": "Logo of MediaLab/Iberoamerica",
+      "imageUrl": "https://picsum.photos/seed/medialab/200/100",
+      "imageHint": "tech lab logo"
     }
   ]
 }

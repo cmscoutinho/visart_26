@@ -1,4 +1,3 @@
-
 "use client";
 
 import Image from "next/image";
@@ -9,6 +8,7 @@ export function Footer() {
   const { t } = useLanguage();
   const uepaLogo = PlaceHolderImages.find(img => img.id === "uepa-logo");
   const unifesspaLogo = PlaceHolderImages.find(img => img.id === "unifesspa-logo");
+  const medialabLogo = PlaceHolderImages.find(img => img.id === "medialab-logo");
 
   return (
     <footer className="w-full mt-auto py-12 px-6 bg-background/20 backdrop-blur-md border-t border-border/10">
@@ -20,11 +20,13 @@ export function Footer() {
           <h4 className="text-sm font-light text-foreground/70 max-w-2xl">
             {t.footer.collab
               .replace('{uepa}', 'Universidade do Estado do Pará (UEPA)')
-              .replace('{unifesspa}', 'Universidade Federal do Sul e Sudeste do Pará (UNIFESSPA)')}
+              .replace('{unifesspa}', 'Universidade Federal do Sul e Sudeste do Pará (UNIFESSPA)')
+              .replace('{medialab}', 'MediaLab/Iberoamerica')}
           </h4>
         </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-16 md:gap-24 opacity-40 hover:opacity-100 transition-opacity duration-700 ease-in-out">
+        <div className="flex flex-wrap items-center justify-center gap-12 md:gap-20 opacity-40 hover:opacity-100 transition-opacity duration-700 ease-in-out">
+          {/* UEPA */}
           <div className="flex items-center gap-4 group">
             <div className="w-16 h-16 relative flex items-center justify-center bg-white/5 rounded-full p-2 transition-transform group-hover:scale-110">
               {uepaLogo && (
@@ -38,12 +40,13 @@ export function Footer() {
                 />
               )}
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col text-left">
               <span className="text-lg font-black tracking-tighter leading-none">UEPA</span>
               <span className="text-[8px] uppercase tracking-wider text-muted-foreground">Estado do Pará</span>
             </div>
           </div>
 
+          {/* UNIFESSPA */}
           <div className="flex items-center gap-4 group">
             <div className="w-16 h-16 relative flex items-center justify-center bg-white/5 rounded-full p-2 transition-transform group-hover:scale-110">
               {unifesspaLogo && (
@@ -57,9 +60,29 @@ export function Footer() {
                 />
               )}
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col text-left">
               <span className="text-lg font-black tracking-tighter leading-none">UNIFESSPA</span>
               <span className="text-[8px] uppercase tracking-wider text-muted-foreground">Federal Sul e Sudeste</span>
+            </div>
+          </div>
+
+          {/* MediaLab */}
+          <div className="flex items-center gap-4 group">
+            <div className="w-16 h-16 relative flex items-center justify-center bg-white/5 rounded-full p-2 transition-transform group-hover:scale-110">
+              {medialabLogo && (
+                <Image 
+                  src={medialabLogo.imageUrl} 
+                  alt="MediaLab" 
+                  width={48} 
+                  height={48} 
+                  className="object-contain"
+                  data-ai-hint="tech lab logo"
+                />
+              )}
+            </div>
+            <div className="flex flex-col text-left">
+              <span className="text-lg font-black tracking-tighter leading-none whitespace-nowrap">MediaLab</span>
+              <span className="text-[8px] uppercase tracking-wider text-muted-foreground">Iberoamerica</span>
             </div>
           </div>
         </div>
