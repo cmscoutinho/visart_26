@@ -95,7 +95,8 @@ export const GazeCanvas = forwardRef<any, GazeCanvasProps>(({
             break;
 
           case "neon":
-            ctx.strokeStyle = `hsl(${(Date.now() / 15) % 360}, 100%, 70%)`;
+            // Glow adjusted to lean towards greens/cyans
+            ctx.strokeStyle = `hsl(${(Date.current ? Date.now() / 15 : 153) % 360}, 100%, 70%)`;
             ctx.shadowBlur = thickness * 1.5;
             ctx.shadowColor = ctx.strokeStyle as string;
             if (lastPointRef.current) {
@@ -108,7 +109,7 @@ export const GazeCanvas = forwardRef<any, GazeCanvasProps>(({
             break;
 
           case "dotted":
-            ctx.fillStyle = `hsl(${(Date.now() / 20) % 360}, 80%, 65%)`;
+            ctx.fillStyle = `hsl(${153 + (Math.sin(Date.now() / 500) * 20)}, 80%, 65%)`;
             ctx.beginPath();
             ctx.arc(localX, localY, thickness / 2, 0, Math.PI * 2);
             ctx.fill();
@@ -116,7 +117,7 @@ export const GazeCanvas = forwardRef<any, GazeCanvasProps>(({
 
           case "soft-brush":
             const grad = ctx.createRadialGradient(localX, localY, 0, localX, localY, thickness * 2.5);
-            grad.addColorStop(0, `rgba(181, 77, 255, ${opacity * 0.4})`);
+            grad.addColorStop(0, `rgba(0, 244, 134, ${opacity * 0.4})`);
             grad.addColorStop(1, "transparent");
             ctx.fillStyle = grad;
             ctx.beginPath();
@@ -133,18 +134,17 @@ export const GazeCanvas = forwardRef<any, GazeCanvasProps>(({
                 vy: (Math.random() - 0.5) * 6,
                 size: Math.random() * (thickness / 1.5) + 1,
                 life: 1.0,
-                color: `hsl(${Math.random() * 80 + 240}, 100%, 70%)`
+                color: `hsl(${Math.random() * 60 + 120}, 100%, 70%)` // Greenish spectrum
               });
             }
             break;
 
           case "heatmap":
             ctx.globalAlpha = 0.05;
-            // More "heat-like" accumulation
             ctx.globalCompositeOperation = "screen";
             const heatGrad = ctx.createRadialGradient(localX, localY, 0, localX, localY, thickness * 5);
-            heatGrad.addColorStop(0, "rgba(255, 69, 0, 0.8)");
-            heatGrad.addColorStop(0.5, "rgba(255, 165, 0, 0.4)");
+            heatGrad.addColorStop(0, "rgba(0, 244, 134, 0.8)");
+            heatGrad.addColorStop(0.5, "rgba(0, 244, 134, 0.4)");
             heatGrad.addColorStop(1, "transparent");
             ctx.fillStyle = heatGrad;
             ctx.beginPath();
@@ -154,7 +154,7 @@ export const GazeCanvas = forwardRef<any, GazeCanvasProps>(({
             break;
 
           case "ghost":
-            ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
+            ctx.strokeStyle = "rgba(0, 244, 134, 0.15)";
             ctx.lineWidth = thickness * 2;
             if (lastPointRef.current) {
               ctx.beginPath();
@@ -165,11 +165,10 @@ export const GazeCanvas = forwardRef<any, GazeCanvasProps>(({
             break;
 
           case "random":
-            ctx.strokeStyle = `hsla(${Math.random() * 360}, 100%, 70%, ${opacity})`;
+            ctx.strokeStyle = `hsla(${Math.random() * 60 + 120}, 100%, 70%, ${opacity})`;
             ctx.lineWidth = Math.random() * thickness * 2 + 1;
             if (lastPointRef.current) {
               ctx.beginPath();
-              // Jitter for expressive effect
               const jx = (Math.random() - 0.5) * 25;
               const jy = (Math.random() - 0.5) * 25;
               ctx.moveTo(lastPointRef.current.x, lastPointRef.current.y);

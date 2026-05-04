@@ -4,25 +4,25 @@
 
 @layer base {
   :root {
-    --background: 275 19% 6%;
+    --background: 153 30% 4%;
     --foreground: 0 0% 98%;
-    --card: 275 19% 10%;
+    --card: 153 30% 8%;
     --card-foreground: 0 0% 98%;
-    --popover: 275 19% 8%;
+    --popover: 153 30% 6%;
     --popover-foreground: 0 0% 98%;
-    --primary: 275 100% 65%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 215 100% 70%;
-    --secondary-foreground: 215 100% 10%;
-    --muted: 275 19% 15%;
-    --muted-foreground: 275 10% 65%;
-    --accent: 275 100% 65%;
-    --accent-foreground: 0 0% 100%;
+    --primary: 153 100% 48%;
+    --primary-foreground: 153 100% 5%;
+    --secondary: 170 100% 40%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 153 20% 12%;
+    --muted-foreground: 153 10% 65%;
+    --accent: 153 100% 48%;
+    --accent-foreground: 153 100% 5%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 275 19% 20%;
-    --input: 275 19% 20%;
-    --ring: 275 100% 65%;
+    --border: 153 25% 15%;
+    --input: 153 25% 15%;
+    --ring: 153 100% 48%;
     --radius: 1rem;
   }
 }
@@ -34,17 +34,17 @@
   body {
     @apply bg-background text-foreground font-body overflow-x-hidden antialiased;
     background-image: 
-      radial-gradient(circle at 0% 0%, rgba(181, 77, 255, 0.08) 0%, transparent 40%),
-      radial-gradient(circle at 100% 100%, rgba(104, 161, 255, 0.08) 0%, transparent 40%);
+      radial-gradient(circle at 0% 0%, rgba(0, 244, 134, 0.08) 0%, transparent 40%),
+      radial-gradient(circle at 100% 100%, rgba(0, 244, 134, 0.05) 0%, transparent 40%);
   }
 }
 
 .glow-text {
-  text-shadow: 0 0 15px rgba(181, 77, 255, 0.6), 0 0 30px rgba(181, 77, 255, 0.4);
+  text-shadow: 0 0 15px rgba(0, 244, 134, 0.6), 0 0 30px rgba(0, 244, 134, 0.4);
 }
 
 .glow-border {
-  box-shadow: 0 0 20px rgba(181, 77, 255, 0.25);
+  box-shadow: 0 0 20px rgba(0, 244, 134, 0.25);
 }
 
 .calibration-point {

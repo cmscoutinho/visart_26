@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
@@ -109,8 +108,8 @@ export function ArtworkScreen({
 
   return (
     <div ref={containerRef} className="min-h-screen bg-background flex flex-col items-center overflow-hidden">
-      {/* Background Ambience */}
-      <div className="fixed inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(181,77,255,0.03)_0%,transparent_70%)] pointer-events-none" />
+      {/* Background Ambience adjusted for green */}
+      <div className="fixed inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,244,134,0.03)_0%,transparent_70%)] pointer-events-none" />
 
       {/* Floating Header */}
       <header className={cn(
@@ -159,13 +158,13 @@ export function ArtworkScreen({
           />
         </div>
         
-        {/* Real-time Gaze feedback cursor */}
+        {/* Real-time Gaze feedback cursor - Green Glow */}
         {isTracking && gazeData && (
           <div 
             className="fixed w-8 h-8 border border-primary/50 rounded-full pointer-events-none z-50 mix-blend-difference flex items-center justify-center transition-all duration-75"
             style={{ left: gazeData.x - 16, top: gazeData.y - 16 }}
           >
-             <div className="w-1 h-1 bg-primary rounded-full shadow-[0_0_8px_rgba(181,77,255,1)]" />
+             <div className="w-1 h-1 bg-primary rounded-full shadow-[0_0_8px_rgba(0,244,134,1)]" />
           </div>
         )}
       </div>

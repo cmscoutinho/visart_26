@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -17,7 +16,7 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-between relative overflow-hidden bg-background">
-      {/* Decorative background elements */}
+      {/* Decorative background elements adjusted for green palette */}
       <div className="absolute top-[-10%] left-[-5%] w-[50%] h-[50%] bg-primary/10 rounded-full blur-[140px] pointer-events-none opacity-60" />
       <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] bg-secondary/10 rounded-full blur-[140px] pointer-events-none opacity-60" />
       
@@ -48,7 +47,7 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
             <Button 
               size="lg" 
               onClick={onStart}
-              className="text-xl px-16 py-8 rounded-full bg-primary hover:bg-primary/90 transition-all duration-500 hover:scale-110 shadow-[0_0_50px_rgba(181,77,255,0.4)] font-bold group border-t border-white/20"
+              className="text-xl px-16 py-8 rounded-full bg-primary hover:bg-primary/90 transition-all duration-500 hover:scale-105 shadow-[0_0_50px_rgba(0,244,134,0.3)] font-bold group border-t border-white/20 text-primary-foreground"
             >
               {t.welcome.startBtn}
               <MousePointer2 className="ml-2 w-6 h-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
