@@ -1,0 +1,23 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "default-artwork",
+      "description": "Abstract artistic background for VISART",
+      "imageUrl": "https://picsum.photos/seed/visart-art/1200/800",
+      "imageHint": "abstract digital art"
+    },
+    {
+      "id": "uepa-logo",
+      "description": "Logo of Universidade do Estado do Pará",
+      "imageUrl": "https://picsum.photos/seed/uepa/200/100",
+      "imageHint": "university logo"
+    },
+    {
+      "id": "unifesspa-logo",
+      "description": "Logo of Universidade Federal do Sul e Sudeste do Pará",
+      "imageUrl": "https://picsum.photos/seed/unifesspa/200/100",
+      "imageHint": "university logo"
+    }
+  ]
+}
