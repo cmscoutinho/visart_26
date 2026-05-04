@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -11,6 +12,7 @@ import {
   DialogTitle, 
   DialogDescription 
 } from "@/components/ui/dialog";
+import { useLanguage } from "@/context/language-context";
 
 interface CalibrationScreenProps {
   onComplete: () => void;
@@ -18,6 +20,9 @@ interface CalibrationScreenProps {
 }
 
 export function CalibrationScreen({ onComplete, showPreview }: CalibrationScreenProps) {
+  const { t } = useLanguage();
+  const clicksRequired = 5;
+
   const [points, setPoints] = useState([
     { id: 1, x: 50, y: 50, clicks: 0 },
     { id: 2, x: 10, y: 10, clicks: 0 },
@@ -32,7 +37,6 @@ export function CalibrationScreen({ onComplete, showPreview }: CalibrationScreen
 
   const [showInstructions, setShowInstructions] = useState(true);
 
-  const clicksRequired = 5;
   const totalRequired = points.length * clicksRequired;
   const totalClicks = points.reduce((sum, p) => sum + p.clicks, 0);
   const progress = (totalClicks / totalRequired) * 100;
@@ -61,15 +65,15 @@ export function CalibrationScreen({ onComplete, showPreview }: CalibrationScreen
 
       <div className="absolute top-12 left-1/2 -translate-x-1/2 w-full max-w-xl text-center space-y-6 z-[101]">
         <div className="space-y-2">
-          <h2 className="text-4xl font-black text-primary tracking-tighter glow-text">Gaze Calibration</h2>
+          <h2 className="text-4xl font-black text-primary tracking-tighter glow-text">{t.calibration.title}</h2>
           <p className="text-muted-foreground font-medium text-sm md:text-base">
-            Maintain your head still and look directly at each pulsing target.
+            {t.calibration.subtitle}
           </p>
         </div>
         
         <div className="space-y-2">
           <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest text-primary/70">
-            <span>Progress</span>
+            <span>{t.calibration.progress}</span>
             <span>{Math.round(progress)}%</span>
           </div>
           <Progress value={progress} className="h-2 w-full bg-white/5" />
@@ -78,20 +82,22 @@ export function CalibrationScreen({ onComplete, showPreview }: CalibrationScreen
 
       {points
         .filter((p) => p.clicks < clicksRequired)
-        .map((p) => (
-          <button
-            key={p.id}
-            onClick={() => handleClick(p.id)}
-            className="calibration-point group flex items-center justify-center z-[102] hover:scale-125 active:scale-95 transition-all duration-300"
-            style={{ left: `${p.x}%`, top: `${p.y}%` }}
-          >
-            <Crosshair className="w-5 h-5 text-primary-foreground group-active:rotate-90 transition-transform duration-300" />
-            <div className="absolute inset-0 rounded-full border-2 border-primary animate-ping opacity-50" />
-            <div className="absolute -bottom-8 bg-card/80 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 text-[10px] font-bold text-primary shadow-xl opacity-0 group-hover:opacity-100 transition-opacity">
-              {clicksRequired - p.clicks} CLICKS
-            </div>
-          </button>
-        ))}
+        .map((p) => {
+          return (
+            <button
+              key={p.id}
+              onClick={() => handleClick(p.id)}
+              className="calibration-point group flex items-center justify-center z-[102] hover:scale-125 active:scale-95 transition-all duration-300"
+              style={{ left: `${p.x}%`, top: `${p.y}%` }}
+            >
+              <Crosshair className="w-5 h-5 text-primary-foreground group-active:rotate-90 transition-transform duration-300" />
+              <div className="absolute inset-0 rounded-full border-2 border-primary animate-ping opacity-50" />
+              <div className="absolute -bottom-8 bg-card/80 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 text-[10px] font-bold text-primary shadow-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                {clicksRequired - p.clicks} {t.calibration.clicks}
+              </div>
+            </button>
+          );
+        })}
 
       {/* Completion Modal */}
       {totalClicks >= totalRequired && (
@@ -104,13 +110,13 @@ export function CalibrationScreen({ onComplete, showPreview }: CalibrationScreen
               </div>
             </div>
             <div className="space-y-3">
-              <h3 className="text-4xl font-black tracking-tighter">Precision Set</h3>
+              <h3 className="text-4xl font-black tracking-tighter">{t.calibration.successTitle}</h3>
               <p className="text-muted-foreground leading-relaxed">
-                Your gaze is now mapped to the digital space. Prepare to express yourself through vision.
+                {t.calibration.successDesc}
               </p>
             </div>
             <Button size="lg" onClick={onComplete} className="w-full text-xl h-20 rounded-[2rem] bg-primary hover:bg-primary/90 shadow-2xl font-bold">
-              Begin Interaction
+              {t.calibration.beginBtn}
             </Button>
           </div>
         </div>
@@ -126,14 +132,14 @@ export function CalibrationScreen({ onComplete, showPreview }: CalibrationScreen
               </div>
             </div>
             <div className="space-y-2 text-center">
-              <DialogTitle className="text-3xl font-black tracking-tighter">How to Calibrate</DialogTitle>
+              <DialogTitle className="text-3xl font-black tracking-tighter">{t.calibration.howToTitle}</DialogTitle>
               <DialogDescription className="text-base text-muted-foreground leading-relaxed">
-                Visual art starts with precise vision. To calibrate your gaze, please click on each pulsing target {clicksRequired} times while looking directly at it.
+                {t.calibration.howToDesc.replace('{n}', clicksRequired.toString())}
               </DialogDescription>
             </div>
           </DialogHeader>
           <Button onClick={() => setShowInstructions(false)} className="w-full h-14 rounded-2xl mt-4 text-lg font-bold">
-            I'm Ready
+            {t.calibration.readyBtn}
           </Button>
         </DialogContent>
       </Dialog>

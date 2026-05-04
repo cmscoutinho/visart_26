@@ -15,6 +15,8 @@ import { PlaceHolderImages } from "@/app/lib/placeholder-images";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { PrivacyNotice } from "./PrivacyNotice";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/context/language-context";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 interface ArtworkScreenProps {
   gazeData: GazeData | null;
@@ -31,6 +33,7 @@ export function ArtworkScreen({
   showPreview, 
   recalibrate 
 }: ArtworkScreenProps) {
+  const { t } = useLanguage();
   const [style, setStyle] = useState<TraceStyle>("neon");
   const [thickness, setThickness] = useState(8);
   const [opacity, setOpacity] = useState(0.8);
@@ -116,20 +119,21 @@ export function ArtworkScreen({
       )}>
         <div className="flex flex-col">
           <h1 className="text-2xl font-black text-primary glow-text tracking-widest leading-none">VISART</h1>
-          <p className="text-[8px] text-muted-foreground uppercase tracking-[0.4em] font-medium mt-1">Technological Art Platform</p>
+          <p className="text-[8px] text-muted-foreground uppercase tracking-[0.4em] font-medium mt-1">{t.artwork.subTitle}</p>
         </div>
         
         <div className="flex items-center gap-3">
+          <LanguageSwitcher className="hidden sm:flex" />
           <Button variant="ghost" size="icon" onClick={() => setShowControls(!showControls)} className="rounded-full bg-card/40 backdrop-blur-md border border-border/20">
             <Settings2 className="w-4 h-4" />
           </Button>
           <Button variant="outline" size="sm" onClick={togglePreview} className="hidden md:flex gap-2 rounded-full border-primary/30 bg-card/40 backdrop-blur-md">
             {isPreviewVisible ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-            Preview
+            {t.artwork.preview}
           </Button>
           <Button variant="outline" size="sm" onClick={toggleFullscreen} className="hidden md:flex gap-2 rounded-full border-primary/30 bg-card/40 backdrop-blur-md">
             {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
-            View
+            {t.artwork.view}
           </Button>
         </div>
       </header>
@@ -187,7 +191,7 @@ export function ArtworkScreen({
         <div className="h-full flex flex-col p-8 overflow-y-auto">
           <div className="flex items-center justify-between mb-8">
             <h3 className="text-sm font-bold text-primary uppercase tracking-[0.2em] flex items-center gap-2">
-              <Settings2 className="w-4 h-4" /> Control Panel
+              <Settings2 className="w-4 h-4" /> {t.artwork.controlPanel}
             </h3>
             <Button variant="ghost" size="icon" onClick={() => setShowControls(false)} className="rounded-full hover:bg-white/5">
               <X className="w-5 h-5" />
@@ -196,7 +200,7 @@ export function ArtworkScreen({
 
           <div className="space-y-8">
             <div className="space-y-3">
-              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Tracking Status</p>
+              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{t.artwork.trackingStatus}</p>
               <div className="grid grid-cols-2 gap-2">
                 <Button 
                   variant={isTracking ? "secondary" : "default"} 
@@ -204,33 +208,28 @@ export function ArtworkScreen({
                   className="w-full gap-2 rounded-xl h-12"
                 >
                   {isTracking ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                  {isTracking ? "Pause" : "Start"}
+                  {isTracking ? t.artwork.pause : t.artwork.start}
                 </Button>
                 <Button 
                   variant="outline" 
                   onClick={recalibrate}
                   className="w-full gap-2 rounded-xl h-12"
                 >
-                  <RefreshCw className="w-4 h-4" /> Recalibrate
+                  <RefreshCw className="w-4 h-4" /> {t.artwork.recalibrate}
                 </Button>
               </div>
             </div>
 
             <div className="space-y-3">
-              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Visual Style</p>
+              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{t.artwork.visualStyle}</p>
               <Select value={style} onValueChange={(v: any) => setStyle(v)}>
                 <SelectTrigger className="w-full h-12 rounded-xl bg-background/50 border-border/50">
                   <SelectValue placeholder="Select style" />
                 </SelectTrigger>
                 <SelectContent className="rounded-xl border-border/50 bg-card/95 backdrop-blur-xl">
-                  <SelectItem value="red-line" className="rounded-lg m-1">Red Line</SelectItem>
-                  <SelectItem value="neon" className="rounded-lg m-1">Neon Glow</SelectItem>
-                  <SelectItem value="dotted" className="rounded-lg m-1">Dotted Trail</SelectItem>
-                  <SelectItem value="soft-brush" className="rounded-lg m-1">Watercolor</SelectItem>
-                  <SelectItem value="particles" className="rounded-lg m-1">Particle Flow</SelectItem>
-                  <SelectItem value="heatmap" className="rounded-lg m-1">Heat Intensity</SelectItem>
-                  <SelectItem value="ghost" className="rounded-lg m-1">Ghost Trace</SelectItem>
-                  <SelectItem value="random" className="rounded-lg m-1">Expressive</SelectItem>
+                  {Object.entries(t.artwork.styles).map(([key, label]) => (
+                    <SelectItem key={key} value={key} className="rounded-lg m-1">{label as string}</SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -238,7 +237,7 @@ export function ArtworkScreen({
             <div className="space-y-6">
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Thickness</p>
+                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{t.artwork.thickness}</p>
                   <span className="text-[10px] text-primary">{thickness}px</span>
                 </div>
                 <Slider 
@@ -253,7 +252,7 @@ export function ArtworkScreen({
 
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Opacity</p>
+                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{t.artwork.opacity}</p>
                   <span className="text-[10px] text-primary">{Math.round(opacity * 100)}%</span>
                 </div>
                 <Slider 
@@ -268,19 +267,19 @@ export function ArtworkScreen({
             </div>
 
             <div className="pt-6 space-y-3 border-t border-border/20">
-              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Actions</p>
+              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{t.artwork.actions}</p>
               <div className="flex flex-col gap-3">
                 <Button variant="outline" onClick={() => canvasRef.current?.clear()} className="w-full gap-2 rounded-xl h-12 border-destructive/20 hover:bg-destructive/10 text-destructive">
-                  <Trash2 className="w-4 h-4" /> Clear Canvas
+                  <Trash2 className="w-4 h-4" /> {t.artwork.clearCanvas}
                 </Button>
                 <Button variant="outline" className="w-full h-12 gap-2 rounded-xl relative overflow-hidden" asChild>
                   <label className="cursor-pointer">
-                    <Upload className="w-4 h-4" /> Change Image
+                    <Upload className="w-4 h-4" /> {t.artwork.changeImage}
                     <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
                   </label>
                 </Button>
                 <Button variant="default" onClick={handleExport} className="w-full h-14 gap-2 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg text-lg font-bold">
-                  <Download className="w-5 h-5" /> Export PNG
+                  <Download className="w-5 h-5" /> {t.artwork.exportPng}
                 </Button>
               </div>
             </div>

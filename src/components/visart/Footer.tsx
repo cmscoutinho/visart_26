@@ -3,8 +3,10 @@
 
 import Image from "next/image";
 import { PlaceHolderImages } from "@/app/lib/placeholder-images";
+import { useLanguage } from "@/context/language-context";
 
 export function Footer() {
+  const { t } = useLanguage();
   const uepaLogo = PlaceHolderImages.find(img => img.id === "uepa-logo");
   const unifesspaLogo = PlaceHolderImages.find(img => img.id === "unifesspa-logo");
 
@@ -13,10 +15,12 @@ export function Footer() {
       <div className="max-w-6xl mx-auto flex flex-col items-center space-y-8">
         <div className="text-center space-y-2">
           <p className="text-[10px] font-bold text-primary tracking-[0.4em] uppercase">
-            Participating institutions
+            {t.footer.institutions}
           </p>
           <h4 className="text-sm font-light text-foreground/70 max-w-2xl">
-            A collaboration between <span className="text-foreground font-semibold">Universidade do Estado do Pará (UEPA)</span> and <span className="text-foreground font-semibold">Universidade Federal do Sul e Sudeste do Pará (UNIFESSPA)</span>.
+            {t.footer.collab
+              .replace('{uepa}', 'Universidade do Estado do Pará (UEPA)')
+              .replace('{unifesspa}', 'Universidade Federal do Sul e Sudeste do Pará (UNIFESSPA)')}
           </h4>
         </div>
 
@@ -61,7 +65,7 @@ export function Footer() {
         </div>
 
         <div className="text-[10px] text-muted-foreground/50 italic">
-          VISART © 2024 • Experimental Technological Art Platform
+          {t.footer.copyright}
         </div>
       </div>
     </footer>
