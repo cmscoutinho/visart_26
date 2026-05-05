@@ -28,19 +28,19 @@
     {
       "id": "uepa-logo",
       "description": "Logo of Universidade do Estado do Pará",
-      "imageUrl": "https://picsum.photos/seed/uepa/200/100",
+      "imageUrl": "/logos/uepa-logo.png",
       "imageHint": "university logo"
     },
     {
       "id": "unifesspa-logo",
       "description": "Logo of Universidade Federal do Sul e Sudeste do Pará",
-      "imageUrl": "https://picsum.photos/seed/unifesspa/200/100",
+      "imageUrl": "/logos/unifesspa-logo.png",
       "imageHint": "university logo"
     },
     {
       "id": "medialab-logo",
       "description": "Logo of MediaLab/Iberoamerica",
-      "imageUrl": "https://picsum.photos/seed/medialab/200/100",
+      "imageUrl": "/logos/medialab-logo.png",
       "imageHint": "tech lab logo"
     }
   ]
