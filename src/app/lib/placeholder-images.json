@@ -28,13 +28,13 @@
     {
       "id": "uepa-logo",
       "description": "Logo of Universidade do Estado do Pará",
-      "imageUrl": "/logos/uepa-logo.png",
+      "imageUrl": "/logos/uepa_logo.png",
       "imageHint": "university logo"
     },
     {
       "id": "unifesspa-logo",
       "description": "Logo of Universidade Federal do Sul e Sudeste do Pará",
-      "imageUrl": "/logos/unifesspa-logo.png",
+      "imageUrl": "/logos/unifesspa_logo.jpg",
       "imageHint": "university logo"
     },
     {

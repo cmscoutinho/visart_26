@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card";
 import { 
   Play, Pause, Trash2, Camera, Download, Maximize2, Minimize2, 
   Upload, Settings2, Eye, EyeOff, RefreshCw, X, Image as ImageIcon,
-  Video
+  Video, Sparkles
 } from "lucide-react";
 import { GazeData, CameraDevice } from "@/hooks/use-webgazer";
 import { GazeCanvas, TraceStyle } from "./GazeCanvas";
@@ -18,6 +18,14 @@ import { PrivacyNotice } from "./PrivacyNotice";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/language-context";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import Image from "next/image";
 
 interface ArtworkScreenProps {
@@ -48,6 +56,10 @@ export function ArtworkScreen({
   
   const artworks = PlaceHolderImages.filter(img => img.id.includes("artwork") || img.id === "default-artwork");
   const [imageUrl, setImageUrl] = useState(artworks[0]?.imageUrl || "");
+  const [carouselActive, setCarouselActive] = useState(false);
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  const [capturedImages, setCapturedImages] = useState<string[]>([]);
+  const [showFinishedDialog, setShowFinishedDialog] = useState(false);
   
   const [isPreviewVisible, setIsPreviewVisible] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -70,29 +82,14 @@ export function ArtworkScreen({
     return () => window.removeEventListener("resize", updateBounds);
   }, [updateBounds, imageUrl]);
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setImageUrl(url);
-      canvasRef.current?.clear();
-    }
-  };
-
-  const selectSampleImage = (url: string) => {
-    setImageUrl(url);
-    canvasRef.current?.clear();
-  };
-
-  const handleExport = async () => {
-    if (!imageRef.current || !canvasRef.current) return;
+  const generateExportUrl = async () => {
+    if (!imageRef.current || !canvasRef.current) return null;
     
     const exportCanvas = document.createElement("canvas");
     const ctx = exportCanvas.getContext("2d");
-    if (!ctx) return;
+    if (!ctx) return null;
 
     const sourceCanvas = canvasRef.current.getCanvas();
-    // Use natural dimensions for high quality export
     exportCanvas.width = imageRef.current.naturalWidth;
     exportCanvas.height = imageRef.current.naturalHeight;
 
@@ -103,16 +100,68 @@ export function ArtworkScreen({
         0, 0, sourceCanvas.width, sourceCanvas.height,
         0, 0, exportCanvas.width, exportCanvas.height
       );
+      return exportCanvas.toDataURL("image/png");
+    } catch (err) {
+      console.error("Capture failed:", err);
+      return null;
+    }
+  };
 
+  const handleExport = async () => {
+    const url = await generateExportUrl();
+    if (url) {
       const link = document.createElement("a");
       link.download = `visart-${Date.now()}.png`;
-      link.href = exportCanvas.toDataURL("image/png");
+      link.href = url;
       link.click();
-    } catch (err) {
-      console.error("Export failed:", err);
-      // Fallback if canvas is still tainted (e.g. user uploaded cross-origin link manually)
-      alert("Failed to export image due to security restrictions on the source image origin.");
+    } else {
+      alert("Failed to export image.");
     }
+  };
+
+  const startCarousel = () => {
+    setCapturedImages([]);
+    setCarouselIndex(0);
+    setImageUrl(artworks[0].imageUrl);
+    canvasRef.current?.clear();
+    setCarouselActive(true);
+    setTracking(true);
+  };
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (carouselActive) {
+      interval = setInterval(async () => {
+        // 1. Capture current result
+        const result = await generateExportUrl();
+        if (result) {
+          setCapturedImages(prev => [...prev, result]);
+        }
+
+        // 2. Move to next index
+        const nextIndex = carouselIndex + 1;
+        if (nextIndex < artworks.length) {
+          setCarouselIndex(nextIndex);
+          setImageUrl(artworks[nextIndex].imageUrl);
+          canvasRef.current?.clear();
+        } else {
+          // Finished
+          setCarouselActive(false);
+          setTracking(false);
+          setShowFinishedDialog(true);
+        }
+      }, 5000);
+    }
+    return () => clearInterval(interval);
+  }, [carouselActive, carouselIndex, artworks, setTracking]);
+
+  const saveAllImages = () => {
+    capturedImages.forEach((url, i) => {
+      const link = document.createElement("a");
+      link.download = `visart-carousel-${i + 1}.png`;
+      link.href = url;
+      link.click();
+    });
   };
 
   const toggleFullscreen = () => {
@@ -189,6 +238,12 @@ export function ArtworkScreen({
              <div className="w-1 h-1 bg-primary rounded-full shadow-[0_0_8px_rgba(0,244,134,1)]" />
           </div>
         )}
+
+        {carouselActive && (
+          <div className="absolute top-24 left-1/2 -translate-x-1/2 px-6 py-2 bg-primary/20 backdrop-blur-xl border border-primary/40 rounded-full text-primary font-bold animate-pulse">
+            {t.artwork.carousel.running} ({carouselIndex + 1}/{artworks.length})
+          </div>
+        )}
       </div>
 
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center gap-4 bg-card/80 backdrop-blur-xl border border-border/50 p-2 rounded-full shadow-2xl md:hidden">
@@ -224,6 +279,7 @@ export function ArtworkScreen({
                 <Button 
                   variant={isTracking ? "secondary" : "default"} 
                   onClick={() => setTracking(!isTracking)}
+                  disabled={carouselActive}
                   className="w-full gap-2 rounded-xl h-12"
                 >
                   {isTracking ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
@@ -232,11 +288,30 @@ export function ArtworkScreen({
                 <Button 
                   variant="outline" 
                   onClick={recalibrate}
+                  disabled={carouselActive}
                   className="w-full gap-2 rounded-xl h-12"
                 >
                   <RefreshCw className="w-4 h-4" /> {t.artwork.recalibrate}
                 </Button>
               </div>
+            </div>
+
+            <div className="space-y-3 p-4 bg-primary/5 rounded-2xl border border-primary/10">
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-[10px] font-bold text-primary uppercase tracking-widest flex items-center gap-2">
+                  <Sparkles className="w-3 h-3" /> {t.artwork.carousel.title}
+                </p>
+              </div>
+              <p className="text-[10px] text-muted-foreground leading-relaxed mb-4">
+                {t.artwork.carousel.desc}
+              </p>
+              <Button 
+                onClick={startCarousel} 
+                disabled={carouselActive}
+                className="w-full h-12 rounded-xl bg-primary text-primary-foreground font-bold hover:shadow-[0_0_20px_rgba(0,244,134,0.3)] transition-all"
+              >
+                {carouselActive ? t.artwork.carousel.running : t.artwork.carousel.start}
+              </Button>
             </div>
 
             {availableCameras.length > 1 && (
@@ -264,10 +339,15 @@ export function ArtworkScreen({
                 {artworks.map((artwork) => (
                   <button
                     key={artwork.id}
-                    onClick={() => selectSampleImage(artwork.imageUrl)}
+                    onClick={() => {
+                      setImageUrl(artwork.imageUrl);
+                      canvasRef.current?.clear();
+                    }}
+                    disabled={carouselActive}
                     className={cn(
                       "group relative aspect-video rounded-lg overflow-hidden border-2 transition-all",
-                      imageUrl === artwork.imageUrl ? "border-primary shadow-[0_0_15px_rgba(0,244,134,0.4)]" : "border-transparent opacity-60 hover:opacity-100"
+                      imageUrl === artwork.imageUrl ? "border-primary shadow-[0_0_15px_rgba(0,244,134,0.4)]" : "border-transparent opacity-60 hover:opacity-100",
+                      carouselActive && "opacity-30 cursor-not-allowed"
                     )}
                   >
                     <Image 
@@ -331,16 +411,37 @@ export function ArtworkScreen({
             <div className="pt-6 space-y-3 border-t border-border/20">
               <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{t.artwork.actions}</p>
               <div className="flex flex-col gap-3">
-                <Button variant="outline" onClick={() => canvasRef.current?.clear()} className="w-full gap-2 rounded-xl h-12 border-destructive/20 hover:bg-destructive/10 text-destructive">
+                <Button 
+                  variant="outline" 
+                  onClick={() => canvasRef.current?.clear()} 
+                  disabled={carouselActive}
+                  className="w-full gap-2 rounded-xl h-12 border-destructive/20 hover:bg-destructive/10 text-destructive"
+                >
                   <Trash2 className="w-4 h-4" /> {t.artwork.clearCanvas}
                 </Button>
-                <Button variant="outline" className="w-full h-12 gap-2 rounded-xl relative overflow-hidden" asChild>
+                <Button 
+                  variant="outline" 
+                  disabled={carouselActive}
+                  className="w-full h-12 gap-2 rounded-xl relative overflow-hidden" 
+                  asChild
+                >
                   <label className="cursor-pointer">
                     <Upload className="w-4 h-4" /> {t.artwork.changeImage}
-                    <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
+                    <input type="file" className="hidden" accept="image/*" onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        setImageUrl(URL.createObjectURL(file));
+                        canvasRef.current?.clear();
+                      }
+                    }} />
                   </label>
                 </Button>
-                <Button variant="default" onClick={handleExport} className="w-full h-14 gap-2 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg text-lg font-bold">
+                <Button 
+                  variant="default" 
+                  onClick={handleExport} 
+                  disabled={carouselActive}
+                  className="w-full h-14 gap-2 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg text-lg font-bold"
+                >
                   <Download className="w-5 h-5" /> {t.artwork.exportPng}
                 </Button>
               </div>
@@ -352,6 +453,35 @@ export function ArtworkScreen({
           </div>
         </div>
       </div>
+
+      <Dialog open={showFinishedDialog} onOpenChange={setShowFinishedDialog}>
+        <DialogContent className="max-w-md rounded-[2rem] bg-card/95 border-primary/20 backdrop-blur-3xl p-8">
+          <DialogHeader className="text-center space-y-4">
+            <div className="flex justify-center">
+              <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center text-primary">
+                <Sparkles className="w-8 h-8" />
+              </div>
+            </div>
+            <DialogTitle className="text-2xl font-black">{t.artwork.carousel.finish}</DialogTitle>
+            <DialogDescription>
+              {capturedImages.length} images were successfully recorded during the sequence.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid grid-cols-2 gap-4 mt-6">
+            <Button variant="outline" onClick={() => setShowFinishedDialog(false)} className="rounded-xl h-14">
+              {t.artwork.view}
+            </Button>
+            <Button onClick={saveAllImages} className="rounded-xl h-14 bg-primary text-primary-foreground font-bold">
+              <Download className="w-4 h-4 mr-2" /> {t.artwork.carousel.saveAll}
+            </Button>
+          </div>
+          <DialogFooter className="mt-4">
+            <Button variant="ghost" onClick={startCarousel} className="w-full rounded-xl text-primary hover:bg-primary/10">
+              <RefreshCw className="w-4 h-4 mr-2" /> {t.artwork.carousel.runAgain}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

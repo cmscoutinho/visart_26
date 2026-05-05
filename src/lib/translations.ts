@@ -55,6 +55,15 @@ export const translations = {
         "heatmap": "Heat Intensity",
         "ghost": "Ghost Trace",
         "random": "Expressive"
+      },
+      carousel: {
+        title: "Carousel Mode",
+        start: "Start Carousel",
+        running: "Carousel Running...",
+        finish: "Sequence Finished",
+        saveAll: "Save All Records",
+        runAgain: "Run Again",
+        desc: "Images switch automatically every 5 seconds."
       }
     },
     privacy: {
@@ -119,7 +128,16 @@ export const translations = {
         "particles": "Fluxo de Partículas",
         "heatmap": "Intensidade de Calor",
         "ghost": "Traço Fantasma",
-        "random": "Expressivo"
+        "random": "Expressive"
+      },
+      carousel: {
+        title: "Modo Carrossel",
+        start: "Iniciar Carrossel",
+        running: "Carrossel Ativo...",
+        finish: "Sequência Finalizada",
+        saveAll: "Salvar Todas as Obras",
+        runAgain: "Executar Novamente",
+        desc: "As imagens mudam automaticamente a cada 5 segundos."
       }
     },
     privacy: {
@@ -185,6 +203,15 @@ export const translations = {
         "heatmap": "Intensidad de Calor",
         "ghost": "Trazo Fantasma",
         "random": "Expresivo"
+      },
+      carousel: {
+        title: "Modo Carrusel",
+        start: "Iniciar Carrusel",
+        running: "Carrusel Activo...",
+        finish: "Secuencia Finalizada",
+        saveAll: "Guardar Todas las Obras",
+        runAgain: "Ejecutar de Nuevo",
+        desc: "Las imágenes cambian automáticamente cada 5 segundos."
       }
     },
     privacy: {
@@ -194,7 +221,7 @@ export const translations = {
     footer: {
       institutions: "Instituciones participantes",
       collab: "Una colaboración entre {uepa}, {unifesspa} y {medialab}.",
-      copyright: "VISART © 2026 • Plataforma de Arte Tecnológico Experimental"
+      copyright: "VISART © 2026 • Plataforma de Arte Tecnológica Experimental"
     }
   }
 };
