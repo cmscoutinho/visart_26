@@ -7,9 +7,10 @@ import { Slider } from "@/components/ui/slider";
 import { Card } from "@/components/ui/card";
 import { 
   Play, Pause, Trash2, Camera, Download, Maximize2, Minimize2, 
-  Upload, Settings2, Eye, EyeOff, RefreshCw, X, Image as ImageIcon
+  Upload, Settings2, Eye, EyeOff, RefreshCw, X, Image as ImageIcon,
+  Video
 } from "lucide-react";
-import { GazeData } from "@/hooks/use-webgazer";
+import { GazeData, CameraDevice } from "@/hooks/use-webgazer";
 import { GazeCanvas, TraceStyle } from "./GazeCanvas";
 import { PlaceHolderImages } from "@/app/lib/placeholder-images";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -25,6 +26,9 @@ interface ArtworkScreenProps {
   setTracking: (enabled: boolean) => void;
   showPreview: (show: boolean) => void;
   recalibrate: () => void;
+  availableCameras: CameraDevice[];
+  selectedCameraId: string;
+  onCameraChange: (deviceId: string) => void;
 }
 
 export function ArtworkScreen({ 
@@ -32,7 +36,10 @@ export function ArtworkScreen({
   isTracking, 
   setTracking, 
   showPreview, 
-  recalibrate 
+  recalibrate,
+  availableCameras,
+  selectedCameraId,
+  onCameraChange
 }: ArtworkScreenProps) {
   const { t } = useLanguage();
   const [style, setStyle] = useState<TraceStyle>("neon");
@@ -223,6 +230,25 @@ export function ArtworkScreen({
                 </Button>
               </div>
             </div>
+
+            {availableCameras.length > 1 && (
+              <div className="space-y-3">
+                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{t.artwork.selectCamera}</p>
+                <Select value={selectedCameraId} onValueChange={onCameraChange}>
+                  <SelectTrigger className="w-full h-12 rounded-xl bg-background/50 border-border/50">
+                    <Video className="w-4 h-4 mr-2 text-primary" />
+                    <SelectValue placeholder="Select Camera" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-xl border-border/50 bg-card/95 backdrop-blur-xl">
+                    {availableCameras.map((camera) => (
+                      <SelectItem key={camera.deviceId} value={camera.deviceId} className="rounded-lg m-1">
+                        {camera.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
 
             <div className="space-y-3">
               <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{t.artwork.sampleArtworks}</p>

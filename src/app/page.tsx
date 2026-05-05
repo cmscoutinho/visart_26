@@ -14,7 +14,19 @@ type AppState = "welcome" | "calibrating" | "artwork";
 
 export default function Home() {
   const [appState, setAppState] = useState<AppState>("welcome");
-  const { isReady, error, gazeData, isTracking, initWebGazer, setTracking, showPreview, clearData } = useWebGazer();
+  const { 
+    isReady, 
+    error, 
+    gazeData, 
+    isTracking, 
+    availableCameras,
+    selectedCameraId,
+    initWebGazer, 
+    setTracking, 
+    switchCamera,
+    showPreview, 
+    clearData 
+  } = useWebGazer();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -28,7 +40,6 @@ export default function Home() {
   }, [error, toast]);
 
   const handleStartExperience = async () => {
-    // Permission check happens within initWebGazer
     await initWebGazer();
     setAppState("calibrating");
   };
@@ -67,6 +78,9 @@ export default function Home() {
           setTracking={setTracking}
           showPreview={showPreview}
           recalibrate={handleRecalibrate}
+          availableCameras={availableCameras}
+          selectedCameraId={selectedCameraId}
+          onCameraChange={switchCamera}
         />
       )}
 
