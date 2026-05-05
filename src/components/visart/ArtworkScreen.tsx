@@ -92,20 +92,27 @@ export function ArtworkScreen({
     if (!ctx) return;
 
     const sourceCanvas = canvasRef.current.getCanvas();
+    // Use natural dimensions for high quality export
     exportCanvas.width = imageRef.current.naturalWidth;
     exportCanvas.height = imageRef.current.naturalHeight;
 
-    ctx.drawImage(imageRef.current, 0, 0);
-    ctx.drawImage(
-      sourceCanvas, 
-      0, 0, sourceCanvas.width, sourceCanvas.height,
-      0, 0, exportCanvas.width, exportCanvas.height
-    );
+    try {
+      ctx.drawImage(imageRef.current, 0, 0);
+      ctx.drawImage(
+        sourceCanvas, 
+        0, 0, sourceCanvas.width, sourceCanvas.height,
+        0, 0, exportCanvas.width, exportCanvas.height
+      );
 
-    const link = document.createElement("a");
-    link.download = "visart-gaze-art.png";
-    link.href = exportCanvas.toDataURL("image/png");
-    link.click();
+      const link = document.createElement("a");
+      link.download = `visart-${Date.now()}.png`;
+      link.href = exportCanvas.toDataURL("image/png");
+      link.click();
+    } catch (err) {
+      console.error("Export failed:", err);
+      // Fallback if canvas is still tainted (e.g. user uploaded cross-origin link manually)
+      alert("Failed to export image due to security restrictions on the source image origin.");
+    }
   };
 
   const toggleFullscreen = () => {
@@ -159,6 +166,7 @@ export function ArtworkScreen({
             ref={imageRef}
             src={imageUrl} 
             alt="Artwork" 
+            crossOrigin="anonymous"
             className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-[0_0_100px_rgba(0,0,0,0.5)] border border-white/5 transition-all"
             onLoad={updateBounds}
           />
