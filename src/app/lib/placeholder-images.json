@@ -8,6 +8,24 @@
       "imageHint": "abstract digital art"
     },
     {
+      "id": "artwork-2",
+      "description": "Watercolor splash abstract",
+      "imageUrl": "https://picsum.photos/seed/visart-2/1200/800",
+      "imageHint": "watercolor abstract"
+    },
+    {
+      "id": "artwork-3",
+      "description": "Geometric minimal patterns",
+      "imageUrl": "https://picsum.photos/seed/visart-3/1200/800",
+      "imageHint": "geometric minimal"
+    },
+    {
+      "id": "artwork-4",
+      "description": "Organic nature patterns",
+      "imageUrl": "https://picsum.photos/seed/visart-4/1200/800",
+      "imageHint": "nature organic"
+    },
+    {
       "id": "uepa-logo",
       "description": "Logo of Universidade do Estado do Pará",
       "imageUrl": "https://picsum.photos/seed/uepa/200/100",

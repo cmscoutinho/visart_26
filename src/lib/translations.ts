@@ -1,3 +1,4 @@
+
 export type Language = 'en' | 'pt' | 'es';
 
 export const translations = {
@@ -34,6 +35,7 @@ export const translations = {
       controlPanel: "Control Panel",
       trackingStatus: "Tracking Status",
       visualStyle: "Visual Style",
+      sampleArtworks: "Sample Artworks",
       thickness: "Thickness",
       opacity: "Opacity",
       actions: "Actions",
@@ -97,6 +99,7 @@ export const translations = {
       controlPanel: "Painel de Controle",
       trackingStatus: "Status de Rastreamento",
       visualStyle: "Estilo Visual",
+      sampleArtworks: "Obras de Exemplo",
       thickness: "Espessura",
       opacity: "Opacidade",
       actions: "Ações",
@@ -160,6 +163,7 @@ export const translations = {
       controlPanel: "Panel de Control",
       trackingStatus: "Estado de Seguimiento",
       visualStyle: "Estilo Visual",
+      sampleArtworks: "Obras de Ejemplo",
       thickness: "Grosor",
       opacity: "Opacidad",
       actions: "Acciones",

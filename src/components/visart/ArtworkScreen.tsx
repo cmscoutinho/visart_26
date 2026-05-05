@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
@@ -6,7 +7,7 @@ import { Slider } from "@/components/ui/slider";
 import { Card } from "@/components/ui/card";
 import { 
   Play, Pause, Trash2, Camera, Download, Maximize2, Minimize2, 
-  Upload, Settings2, Eye, EyeOff, RefreshCw, X
+  Upload, Settings2, Eye, EyeOff, RefreshCw, X, Image as ImageIcon
 } from "lucide-react";
 import { GazeData } from "@/hooks/use-webgazer";
 import { GazeCanvas, TraceStyle } from "./GazeCanvas";
@@ -16,6 +17,7 @@ import { PrivacyNotice } from "./PrivacyNotice";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/language-context";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import Image from "next/image";
 
 interface ArtworkScreenProps {
   gazeData: GazeData | null;
@@ -36,7 +38,10 @@ export function ArtworkScreen({
   const [style, setStyle] = useState<TraceStyle>("neon");
   const [thickness, setThickness] = useState(8);
   const [opacity, setOpacity] = useState(0.8);
-  const [imageUrl, setImageUrl] = useState(PlaceHolderImages.find(i => i.id === "default-artwork")?.imageUrl || "");
+  
+  const artworks = PlaceHolderImages.filter(img => img.id.includes("artwork") || img.id === "default-artwork");
+  const [imageUrl, setImageUrl] = useState(artworks[0]?.imageUrl || "");
+  
   const [isPreviewVisible, setIsPreviewVisible] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [imageBounds, setImageBounds] = useState<DOMRect | null>(null);
@@ -63,7 +68,13 @@ export function ArtworkScreen({
     if (file) {
       const url = URL.createObjectURL(file);
       setImageUrl(url);
+      canvasRef.current?.clear();
     }
+  };
+
+  const selectSampleImage = (url: string) => {
+    setImageUrl(url);
+    canvasRef.current?.clear();
   };
 
   const handleExport = async () => {
@@ -108,10 +119,8 @@ export function ArtworkScreen({
 
   return (
     <div ref={containerRef} className="min-h-screen bg-background flex flex-col items-center overflow-hidden">
-      {/* Background Ambience adjusted for green */}
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,244,134,0.03)_0%,transparent_70%)] pointer-events-none" />
 
-      {/* Floating Header */}
       <header className={cn(
         "fixed top-0 left-0 right-0 z-40 p-6 flex items-center justify-between transition-transform duration-500",
         !showControls && "-translate-y-full"
@@ -137,7 +146,6 @@ export function ArtworkScreen({
         </div>
       </header>
 
-      {/* Main Canvas Area */}
       <div className="relative flex-1 w-full flex items-center justify-center p-4 md:p-12">
         <div className="relative inline-block max-w-full max-h-full">
           <img 
@@ -158,7 +166,6 @@ export function ArtworkScreen({
           />
         </div>
         
-        {/* Real-time Gaze feedback cursor - Green Glow */}
         {isTracking && gazeData && (
           <div 
             className="fixed w-8 h-8 border border-primary/50 rounded-full pointer-events-none z-50 mix-blend-difference flex items-center justify-center transition-all duration-75"
@@ -169,7 +176,6 @@ export function ArtworkScreen({
         )}
       </div>
 
-      {/* Persistent Mobile Bottom Bar */}
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center gap-4 bg-card/80 backdrop-blur-xl border border-border/50 p-2 rounded-full shadow-2xl md:hidden">
         <Button size="icon" variant="ghost" onClick={() => setTracking(!isTracking)} className={cn("rounded-full", isTracking ? "text-primary" : "text-muted-foreground")}>
           {isTracking ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
@@ -182,7 +188,6 @@ export function ArtworkScreen({
         </Button>
       </div>
 
-      {/* Sidebar Controls Overlay */}
       <div className={cn(
         "fixed top-0 right-0 h-full w-full md:w-80 bg-background/95 md:bg-card/90 backdrop-blur-2xl z-50 border-l border-border/50 transition-transform duration-500 ease-in-out shadow-[-20px_0_50px_rgba(0,0,0,0.5)]",
         showControls ? "translate-x-0" : "translate-x-full"
@@ -216,6 +221,30 @@ export function ArtworkScreen({
                 >
                   <RefreshCw className="w-4 h-4" /> {t.artwork.recalibrate}
                 </Button>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{t.artwork.sampleArtworks}</p>
+              <div className="grid grid-cols-2 gap-3">
+                {artworks.map((artwork) => (
+                  <button
+                    key={artwork.id}
+                    onClick={() => selectSampleImage(artwork.imageUrl)}
+                    className={cn(
+                      "group relative aspect-video rounded-lg overflow-hidden border-2 transition-all",
+                      imageUrl === artwork.imageUrl ? "border-primary shadow-[0_0_15px_rgba(0,244,134,0.4)]" : "border-transparent opacity-60 hover:opacity-100"
+                    )}
+                  >
+                    <Image 
+                      src={artwork.imageUrl} 
+                      alt={artwork.description}
+                      fill
+                      className="object-cover"
+                      data-ai-hint={artwork.imageHint}
+                    />
+                  </button>
+                ))}
               </div>
             </div>
 
