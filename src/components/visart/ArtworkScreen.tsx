@@ -1,13 +1,12 @@
 
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Card } from "@/components/ui/card";
 import { 
-  Play, Pause, Trash2, Camera, Download, Maximize2, Minimize2, 
-  Upload, Settings2, Eye, EyeOff, RefreshCw, X, Image as ImageIcon,
+  Play, Pause, Trash2, Download, Maximize2, Minimize2, 
+  Upload, Settings2, Eye, EyeOff, RefreshCw, X,
   Video, Sparkles
 } from "lucide-react";
 import { GazeData, CameraDevice } from "@/hooks/use-webgazer";
@@ -54,7 +53,10 @@ export function ArtworkScreen({
   const [thickness, setThickness] = useState(8);
   const [opacity, setOpacity] = useState(0.8);
   
-  const artworks = PlaceHolderImages.filter(img => img.id.includes("artwork") || img.id === "default-artwork");
+  const artworks = useMemo(() => 
+    PlaceHolderImages.filter(img => img.id.includes("artwork") || img.id === "default-artwork"),
+  []);
+  
   const [imageUrl, setImageUrl] = useState(artworks[0]?.imageUrl || "");
   const [carouselActive, setCarouselActive] = useState(false);
   const [carouselIndex, setCarouselIndex] = useState(0);
@@ -82,7 +84,7 @@ export function ArtworkScreen({
     return () => window.removeEventListener("resize", updateBounds);
   }, [updateBounds, imageUrl]);
 
-  const generateExportUrl = async () => {
+  const generateExportUrl = useCallback(async () => {
     if (!imageRef.current || !canvasRef.current) return null;
     
     const exportCanvas = document.createElement("canvas");
@@ -90,6 +92,9 @@ export function ArtworkScreen({
     if (!ctx) return null;
 
     const sourceCanvas = canvasRef.current.getCanvas();
+    if (!sourceCanvas) return null;
+
+    // Use natural dimensions to preserve quality
     exportCanvas.width = imageRef.current.naturalWidth;
     exportCanvas.height = imageRef.current.naturalHeight;
 
@@ -105,7 +110,7 @@ export function ArtworkScreen({
       console.error("Capture failed:", err);
       return null;
     }
-  };
+  }, []);
 
   const handleExport = async () => {
     const url = await generateExportUrl();
@@ -114,8 +119,6 @@ export function ArtworkScreen({
       link.download = `visart-${Date.now()}.png`;
       link.href = url;
       link.click();
-    } else {
-      alert("Failed to export image.");
     }
   };
 
@@ -128,32 +131,33 @@ export function ArtworkScreen({
     setTracking(true);
   };
 
+  // Carousel loop logic
   useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (carouselActive) {
-      interval = setInterval(async () => {
-        // 1. Capture current result
-        const result = await generateExportUrl();
-        if (result) {
-          setCapturedImages(prev => [...prev, result]);
-        }
+    if (!carouselActive) return;
 
-        // 2. Move to next index
-        const nextIndex = carouselIndex + 1;
-        if (nextIndex < artworks.length) {
-          setCarouselIndex(nextIndex);
-          setImageUrl(artworks[nextIndex].imageUrl);
-          canvasRef.current?.clear();
-        } else {
-          // Finished
-          setCarouselActive(false);
-          setTracking(false);
-          setShowFinishedDialog(true);
-        }
-      }, 5000);
-    }
-    return () => clearInterval(interval);
-  }, [carouselActive, carouselIndex, artworks, setTracking]);
+    const timer = setTimeout(async () => {
+      // 1. Capture current drawing
+      const result = await generateExportUrl();
+      if (result) {
+        setCapturedImages(prev => [...prev, result]);
+      }
+
+      // 2. Determine next step
+      const nextIndex = carouselIndex + 1;
+      if (nextIndex < artworks.length) {
+        setCarouselIndex(nextIndex);
+        setImageUrl(artworks[nextIndex].imageUrl);
+        canvasRef.current?.clear();
+      } else {
+        // Sequence finished
+        setCarouselActive(false);
+        setTracking(false);
+        setShowFinishedDialog(true);
+      }
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [carouselActive, carouselIndex, artworks, generateExportUrl, setTracking]);
 
   const saveAllImages = () => {
     capturedImages.forEach((url, i) => {
@@ -240,7 +244,7 @@ export function ArtworkScreen({
         )}
 
         {carouselActive && (
-          <div className="absolute top-24 left-1/2 -translate-x-1/2 px-6 py-2 bg-primary/20 backdrop-blur-xl border border-primary/40 rounded-full text-primary font-bold animate-pulse">
+          <div className="absolute top-24 left-1/2 -translate-x-1/2 px-6 py-2 bg-primary/20 backdrop-blur-xl border border-primary/40 rounded-full text-primary font-bold animate-pulse z-50">
             {t.artwork.carousel.running} ({carouselIndex + 1}/{artworks.length})
           </div>
         )}
