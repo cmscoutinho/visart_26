@@ -73,7 +73,16 @@ export const translations = {
     footer: {
       institutions: "Participating institutions",
       collab: "A collaboration between {uepa}, {unifesspa}, and {medialab}.",
-      copyright: "VISART © 2026 • Experimental Technological Art Platform"
+      copyright: "VISART © 2026 • Experimental Technological Art Platform",
+      uepaName: "UEPA",
+      uepaSub: "State of Pará",
+      uepaFull: "Universidade do Estado do Pará (UEPA)",
+      unifesspaName: "UNIFESSPA",
+      unifesspaSub: "Federal South and Southeast",
+      unifesspaFull: "Universidade Federal do Sul e Sudeste do Pará (UNIFESSPA)",
+      medialabName: "MediaLab",
+      medialabSub: "Iberoamerica",
+      medialabFull: "MediaLab/Iberoamerica"
     }
   },
   pt: {
@@ -128,7 +137,7 @@ export const translations = {
         "particles": "Fluxo de Partículas",
         "heatmap": "Intensidade de Calor",
         "ghost": "Traço Fantasma",
-        "random": "Expressive"
+        "random": "Expressivo"
       },
       carousel: {
         title: "Modo Carrossel",
@@ -147,7 +156,16 @@ export const translations = {
     footer: {
       institutions: "Instituições participantes",
       collab: "Uma colaboração entre a {uepa}, a {unifesspa} e o {medialab}.",
-      copyright: "VISART © 2026 • Plataforma de Arte Tecnológica Experimental"
+      copyright: "VISART © 2026 • Plataforma de Arte Tecnológica Experimental",
+      uepaName: "UEPA",
+      uepaSub: "Estado do Pará",
+      uepaFull: "Universidade do Estado do Pará (UEPA)",
+      unifesspaName: "UNIFESSPA",
+      unifesspaSub: "Federal Sul e Sudeste",
+      unifesspaFull: "Universidade Federal do Sul e Sudeste do Pará (UNIFESSPA)",
+      medialabName: "MediaLab",
+      medialabSub: "Iberoamerica",
+      medialabFull: "MediaLab/Iberoamerica"
     }
   },
   es: {
@@ -186,7 +204,7 @@ export const translations = {
       sampleArtworks: "Obras de Ejemplo",
       selectCamera: "Seleccionar Cámara",
       thickness: "Grosor",
-      opacity: "Opacidad",
+      opacity: "Opacidade",
       actions: "Acciones",
       clearCanvas: "Limpar Lienzo",
       changeImage: "Cambiar Imagen",
@@ -207,7 +225,7 @@ export const translations = {
       carousel: {
         title: "Modo Carrusel",
         start: "Iniciar Carrusel",
-        running: "Carrusel Activo...",
+        running: "Carrusel Ativo...",
         finish: "Secuencia Finalizada",
         saveAll: "Guardar Todas las Obras",
         runAgain: "Ejecutar de Nuevo",
@@ -221,7 +239,16 @@ export const translations = {
     footer: {
       institutions: "Instituciones participantes",
       collab: "Una colaboración entre {uepa}, {unifesspa} y {medialab}.",
-      copyright: "VISART © 2026 • Plataforma de Arte Tecnológica Experimental"
+      copyright: "VISART © 2026 • Plataforma de Arte Tecnológica Experimental",
+      uepaName: "UEPA",
+      uepaSub: "Estado de Pará",
+      uepaFull: "Universidade do Estado do Pará (UEPA)",
+      unifesspaName: "UNIFESSPA",
+      unifesspaSub: "Federal Sur y Sudeste",
+      unifesspaFull: "Universidade Federal do Sul e Sudeste do Pará (UNIFESSPA)",
+      medialabName: "MediaLab",
+      medialabSub: "Iberoamérica",
+      medialabFull: "MediaLab/Iberoamérica"
     }
   }
 };

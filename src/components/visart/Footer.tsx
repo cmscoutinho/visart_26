@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -19,9 +20,9 @@ export function Footer() {
           </p>
           <h4 className="text-sm font-light text-foreground/70 max-w-2xl">
             {t.footer.collab
-              .replace('{uepa}', 'Universidade do Estado do Pará (UEPA)')
-              .replace('{unifesspa}', 'Universidade Federal do Sul e Sudeste do Pará (UNIFESSPA)')
-              .replace('{medialab}', 'MediaLab/Iberoamerica')}
+              .replace('{uepa}', t.footer.uepaFull)
+              .replace('{unifesspa}', t.footer.unifesspaFull)
+              .replace('{medialab}', t.footer.medialabFull)}
           </h4>
         </div>
 
@@ -32,7 +33,7 @@ export function Footer() {
               {uepaLogo && (
                 <Image 
                   src={uepaLogo.imageUrl} 
-                  alt="UEPA" 
+                  alt={t.footer.uepaName} 
                   width={48} 
                   height={48} 
                   className="object-contain"
@@ -41,8 +42,8 @@ export function Footer() {
               )}
             </div>
             <div className="flex flex-col text-left">
-              <span className="text-lg font-black tracking-tighter leading-none">UEPA</span>
-              <span className="text-[8px] uppercase tracking-wider text-muted-foreground">Estado do Pará</span>
+              <span className="text-lg font-black tracking-tighter leading-none">{t.footer.uepaName}</span>
+              <span className="text-[8px] uppercase tracking-wider text-muted-foreground">{t.footer.uepaSub}</span>
             </div>
           </div>
 
@@ -52,7 +53,7 @@ export function Footer() {
               {unifesspaLogo && (
                 <Image 
                   src={unifesspaLogo.imageUrl} 
-                  alt="UNIFESSPA" 
+                  alt={t.footer.unifesspaName} 
                   width={48} 
                   height={48} 
                   className="object-contain"
@@ -61,8 +62,8 @@ export function Footer() {
               )}
             </div>
             <div className="flex flex-col text-left">
-              <span className="text-lg font-black tracking-tighter leading-none">UNIFESSPA</span>
-              <span className="text-[8px] uppercase tracking-wider text-muted-foreground">Federal Sul e Sudeste</span>
+              <span className="text-lg font-black tracking-tighter leading-none">{t.footer.unifesspaName}</span>
+              <span className="text-[8px] uppercase tracking-wider text-muted-foreground">{t.footer.unifesspaSub}</span>
             </div>
           </div>
 
@@ -72,7 +73,7 @@ export function Footer() {
               {medialabLogo && (
                 <Image 
                   src={medialabLogo.imageUrl} 
-                  alt="MediaLab" 
+                  alt={t.footer.medialabName} 
                   width={48} 
                   height={48} 
                   className="object-contain"
@@ -81,8 +82,8 @@ export function Footer() {
               )}
             </div>
             <div className="flex flex-col text-left">
-              <span className="text-lg font-black tracking-tighter leading-none whitespace-nowrap">MediaLab</span>
-              <span className="text-[8px] uppercase tracking-wider text-muted-foreground">Iberoamerica</span>
+              <span className="text-lg font-black tracking-tighter leading-none whitespace-nowrap">{t.footer.medialabName}</span>
+              <span className="text-[8px] uppercase tracking-wider text-muted-foreground">{t.footer.medialabSub}</span>
             </div>
           </div>
         </div>
