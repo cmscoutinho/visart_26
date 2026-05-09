@@ -67,22 +67,22 @@ export const translations = {
       }
     },
     privacy: {
-      title: "Privacy & Ethical Notice",
-      content: "VISART uses the webcam only in the browser to estimate gaze direction. No camera images or gaze data are stored or sent to servers. Gaze tracking is approximate and may vary depending on lighting, camera quality, face position, browser, and device. The experience is purely artistic and experimental."
+      title: "Experimental Research Disclaimer",
+      content: "This project is for experimental research purposes only. VISART uses the webcam locally in the browser to estimate gaze direction. No images or gaze data are stored or sent to servers. Tracking is approximate and the experience is purely artistic, experimental, and part of an ongoing scientific investigation."
     },
     footer: {
       institutions: "Participating institutions",
       collab: "A collaboration between {uepa}, {unifesspa}, and {medialab}.",
       copyright: "VISART © 2026 • Experimental Technological Art Platform",
       uepaName: "UEPA",
-      uepaSub: "State of Pará",
+      uepaSub: "State University of Pará",
       uepaFull: "Universidade do Estado do Pará (UEPA)",
-      unifesspaName: "UNIFESSPA",
-      unifesspaSub: "Federal South and Southeast",
+      unifesspaName: "Unifesspa",
+      unifesspaSub: "Federal University of Southern and Southeastern Pará",
       unifesspaFull: "Universidade Federal do Sul e Sudeste do Pará (UNIFESSPA)",
-      medialabName: "MediaLab",
+      medialabName: "Media Lab",
       medialabSub: "Iberoamerica",
-      medialabFull: "MediaLab/Iberoamerica"
+      medialabFull: "Media Lab/Iberoamerica"
     }
   },
   pt: {
@@ -135,7 +135,7 @@ export const translations = {
         "dotted": "Trilha Pontilhada",
         "soft-brush": "Aquarela",
         "particles": "Fluxo de Partículas",
-        "heatmap": "Intensidade de Calor",
+        "heatmap": "Heat Intensity",
         "ghost": "Traço Fantasma",
         "random": "Expressivo"
       },
@@ -150,22 +150,22 @@ export const translations = {
       }
     },
     privacy: {
-      title: "Aviso de Privacidade e Ética",
-      content: "O VISART usa a webcam apenas no navegador para estimar a direção do olhar. Nenhuma imagem da câmera ou dados de olhar são armazenados ou enviados para servidores. O rastreamento ocular é aproximado e pode variar dependendo da iluminação, qualidade da câmera, posição do rosto, navegador e dispositivo. A experiência é puramente artística e experimental."
+      title: "Aviso de Pesquisa Experimental",
+      content: "Este projeto é apenas para fins de pesquisa experimental. O VISART usa a webcam localmente no navegador para estimar a direção do olhar. Nenhuma imagem da câmera ou dados de olhar são armazenados ou enviados para servidores. O rastreamento é aproximado e a experiência é puramente artística, experimental e parte de uma investigação científica em andamento."
     },
     footer: {
       institutions: "Instituições participantes",
       collab: "Uma colaboração entre a {uepa}, a {unifesspa} e o {medialab}.",
       copyright: "VISART © 2026 • Plataforma de Arte Tecnológica Experimental",
       uepaName: "UEPA",
-      uepaSub: "Estado do Pará",
+      uepaSub: "Universidade do Estado do Pará",
       uepaFull: "Universidade do Estado do Pará (UEPA)",
-      unifesspaName: "UNIFESSPA",
-      unifesspaSub: "Federal Sul e Sudeste",
+      unifesspaName: "Unifesspa",
+      unifesspaSub: "Universidade Federal do Sul e Sudeste do Pará",
       unifesspaFull: "Universidade Federal do Sul e Sudeste do Pará (UNIFESSPA)",
-      medialabName: "MediaLab",
+      medialabName: "Media Lab",
       medialabSub: "Iberoamerica",
-      medialabFull: "MediaLab/Iberoamerica"
+      medialabFull: "Media Lab/Iberoamerica"
     }
   },
   es: {
@@ -204,7 +204,7 @@ export const translations = {
       sampleArtworks: "Obras de Ejemplo",
       selectCamera: "Seleccionar Cámara",
       thickness: "Grosor",
-      opacity: "Opacidade",
+      opacity: "Opacidad",
       actions: "Acciones",
       clearCanvas: "Limpar Lienzo",
       changeImage: "Cambiar Imagen",
@@ -233,22 +233,22 @@ export const translations = {
       }
     },
     privacy: {
-      title: "Aviso de Privacidad y Ética",
-      content: "VISART utiliza la cámara web solo en el navegador para estimar la dirección de la mirada. No se almacenan ni envían imágenes de la cámara ni datos de la mirada a los servidores. El seguimiento ocular es aproximado y puede variar según la iluminación, la calidad de la cámara, la posición de la cara, el navegador y el dispositivo. La experiencia es puramente artística y experimental."
+      title: "Aviso de Investigación Experimental",
+      content: "Este proyecto tiene únicamente fines de investigación experimental. VISART utiliza la cámara web localmente en el navegador para estimar la dirección de la mirada. No se almacenan ni envían imágenes ni datos de la mirada a servidores. El seguimiento es aproximado y la experiencia es puramente artística, experimental y parte de una investigación científica en curso."
     },
     footer: {
       institutions: "Instituciones participantes",
       collab: "Una colaboración entre {uepa}, {unifesspa} y {medialab}.",
       copyright: "VISART © 2026 • Plataforma de Arte Tecnológica Experimental",
       uepaName: "UEPA",
-      uepaSub: "Estado de Pará",
+      uepaSub: "Universidade del Estado de Pará",
       uepaFull: "Universidade do Estado do Pará (UEPA)",
-      unifesspaName: "UNIFESSPA",
-      unifesspaSub: "Federal Sur y Sudeste",
+      unifesspaName: "Unifesspa",
+      unifesspaSub: "Universidad Federal del Sur y Sudeste de Pará",
       unifesspaFull: "Universidade Federal do Sul e Sudeste do Pará (UNIFESSPA)",
-      medialabName: "MediaLab",
+      medialabName: "Media Lab",
       medialabSub: "Iberoamérica",
-      medialabFull: "MediaLab/Iberoamérica"
+      medialabFull: "Media Lab/Iberoamérica"
     }
   }
 };
